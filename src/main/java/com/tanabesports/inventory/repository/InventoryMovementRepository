@@ -1,0 +1,7 @@
+package com.tanabesports.inventory.repository;
+
+import com.tanabesports.inventory.model.InventoryMovement;
+import org.springframework.data.mongodb.repository.MongoRepository;
+
+public interface InventoryMovementRepository extends MongoRepository<InventoryMovement, String> {
+}
