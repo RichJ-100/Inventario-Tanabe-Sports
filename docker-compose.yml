@@ -1,0 +1,38 @@
+version: '3.8'
+
+services:
+  mongodb:
+    image: mongo:7.0
+    container_name: tanabe-mongodb
+    restart: unless-stopped
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_DATABASE: tanabe_inventory
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: tanabe2026
+    volumes:
+      - mongodb_data:/data/db
+    networks:
+      - tanabe-network
+
+  app:
+    build: .
+    container_name: tanabe-app
+    restart: unless-stopped
+    ports:
+      - "8080:8080"
+    environment:
+      SPRING_DATA_MONGODB_URI: mongodb://admin:tanabe2026@mongodb:27017/tanabe_inventory?authSource=admin
+      SPRING_PROFILES_ACTIVE: docker
+    depends_on:
+      - mongodb
+    networks:
+      - tanabe-network
+
+volumes:
+  mongodb_data:
+
+networks:
+  tanabe-network:
+    driver: bridge
