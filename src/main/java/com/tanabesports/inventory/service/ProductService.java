@@ -2,7 +2,6 @@ package com.tanabesports.inventory.service;
 
 import com.tanabesports.inventory.model.InventoryMovement;
 import com.tanabesports.inventory.model.Product;
-import com.tanabesports.inventory.repository.InventoryMovementRepository;
 import com.tanabesports.inventory.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
@@ -14,9 +13,6 @@ public class ProductService {
 
     @Autowired
     private ProductRepository productRepository;
-
-    @Autowired
-    private InventoryMovementRepository movementRepository;
 
     @Autowired
     private ApplicationEventPublisher eventPublisher;
@@ -61,7 +57,6 @@ public class ProductService {
 
     @EventListener
     public void handleManagerAudit(InventoryMovement event) {
-        movementRepository.save(event);
         System.out.println("[GERENCIA] Movimiento registrado en auditoría para: " + event.getProductName());
     }
 }
